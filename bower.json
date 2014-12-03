@@ -1,0 +1,18 @@
+{
+  "name": "psyflasher",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Cinezaster/psyflasher",
+  "authors": [
+    "Cinezaster <toon@appsaloon.be>"
+  ],
+  "description": "flashing your mind with awesome patterns",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
