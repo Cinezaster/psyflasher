@@ -74,9 +74,9 @@ $(function(){
 		context.font = "bold 30px Verdana";
 		context.fillText("PSY-Flasher", 100,70);
 		context.font = "17px Verdana";
-		context.fillText("First click: auto mode", 100,100);
-		context.fillText("Second click: manual mode", 100,130);
-		context.fillText("Third click: back at start", 100,160);
+		context.fillText("First click: auto mode (sweep through frequencies)", 100,100);
+		context.fillText("Second click: manual mode (mouse position)", 100,130);
+		context.fillText("Third click: back to this page", 100,160);
 		context.fillStyle = 'grey';
 		context.font = "10px Verdana";
 		context.fillText("By Cinezaster", 100,190);
@@ -131,7 +131,7 @@ $(function(){
 				}
 			} else {
 				intervalTime = mapToRange(cursorY, 0, window.outerHeight, intervalMin, intervalMax);
-				colorOffset = mapToRange(cursorX, 0, window.outerWidth, 10,350);
+				colorOffset = mapToRange(cursorX, 0, window.outerWidth, 20,180);
 			}
 			clearInterval(interval);
 			interval = setInterval(function () {
