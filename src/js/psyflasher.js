@@ -9,28 +9,36 @@ $(function(){
 	var intervalMax = 125; //125 Milliseconds = periode of 8Hz
 	var intervalTime = intervalMax; // start with 8Hz wave
 	var modifier = 0.5;
-	var running = false;
+	var state = 0;
 	var cursorX, cursorY;
 	var mouseControl = false;
 
-	/**
-	*Set canvas fullscreen	
-	*/
-	$(canvas).attr({
-		width: window.outerWidth,
-		height: window.outerHeight
-	});
+	function init(){
+		canvasToFullscreen();
+		beginState();
+	}
 
 	/**
 	* Click on the canvas to toggle the flashing
 	*/
 	$(canvas).click(function(){
-		if (!running) {
-			startFlashing();
-		} else {
-			stopFlashing();
-		}
+		state++;
+		switchState();
 	});
+
+	$( window ).resize(function() {
+		canvasToFullscreen();
+	});
+
+	/**
+	*Set canvas fullscreen	
+	*/
+	function canvasToFullscreen () {
+		$(canvas).attr({
+			width: window.outerWidth,
+			height: window.outerHeight
+		});
+	}
 
 	/**
 	* Get mouse position for manual control
@@ -40,12 +48,53 @@ $(function(){
 		cursorY = e.pageY;
 	};
 
+	function switchState(){
+		switch (state) {
+			case 0:
+				stopFlashing();
+				beginState();
+				break;
+			case 1:
+				startFlashing();
+				break;
+			case 2:
+				mouseControl = true;
+				break;
+			case 3:
+				mouseControl = false;
+				state = 0;
+				switchState();
+				break;
+		}
+	}
+
+	function beginState() {
+		paint('rgb(255,255,255)');
+		context.fillStyle = 'black';
+		context.font = "bold 30px Verdana";
+		context.fillText("PSY-Flasher", 100,70);
+		context.font = "17px Verdana";
+		context.fillText("First click: auto mode", 100,100);
+		context.fillText("Second click: manual mode", 100,130);
+		context.fillText("Third click: back at start", 100,160);
+		context.fillStyle = 'grey';
+		context.font = "10px Verdana";
+		context.fillText("By Cinezaster", 100,190);
+		var gradient = context.createRadialGradient(50,120,1,50,120,80);
+		var gradientQuality = 15;
+		for (var i = gradientQuality - 1; i > 0; i--) {
+			gradient.addColorStop(i*(1/(gradientQuality)),hslToRgbString(i*(360/gradientQuality)));
+		}
+		context.fillStyle = gradient;
+		context.fillRect(10,48,80,143);
+
+	}
+
 	/**
 	* Stop the flashing
 	*/
 	function stopFlashing () {
 		clearInterval(interval);
-		running = false;
 	}
 
 	/**
@@ -56,7 +105,6 @@ $(function(){
 		interval = setInterval(function () {
 			flash();
 		},intervalTime/2);
-		running = true;
 	}
 
 	/**
@@ -90,7 +138,7 @@ $(function(){
 				flash();
 			},intervalTime/2);
 		}
-		paint(c);
+		paint(hslToRgbString(c));
 	}
 
 	/**
@@ -100,7 +148,7 @@ $(function(){
 	 * @param	Number c 	The hue
 	 */
 	function paint (c) {
-		context.fillStyle = hslToRgbString(c);
+		context.fillStyle = c;
 		context.fillRect(0,0,canvas.width,canvas.height);
 	}
 
@@ -135,4 +183,6 @@ $(function(){
     	var newRange = newMax - newMin;
     	return (((value - oldMin)* newRange)/ oldRange) + newMin;
     }
+
+    init();
 });
