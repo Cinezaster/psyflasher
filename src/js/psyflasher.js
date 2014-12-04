@@ -87,7 +87,6 @@ $(function(){
 		}
 		context.fillStyle = gradient;
 		context.fillRect(10,48,80,143);
-
 	}
 
 	/**
@@ -131,7 +130,7 @@ $(function(){
 				}
 			} else {
 				intervalTime = mapToRange(cursorY, 0, window.outerHeight, intervalMin, intervalMax);
-				colorOffset = mapToRange(cursorX, 0, window.outerWidth, 20,180);
+				colorOffset = mapToRange(cursorX, 0, window.outerWidth, 30,330);
 			}
 			clearInterval(interval);
 			interval = setInterval(function () {
